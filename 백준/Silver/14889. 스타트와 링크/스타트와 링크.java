@@ -1,6 +1,10 @@
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -16,18 +20,21 @@ public class Main {
 
         for(int i=0;i<N-1;i++) {
             for(int j=i+1;j<N;j++) {
-                if (i != j) {
-                    if (visited[i] == true && visited[j] == true) {
-                        startSum += stat[i][j];
-                        startSum += stat[j][i];
-                    } else if (visited[i] == false && visited[j] == false) {
-                        linkSum += stat[i][j];
-                        linkSum += stat[j][i];
-                    }
+                 if (visited[i] == true && visited[j] == true) {
+                     startSum += stat[i][j];
+                     startSum += stat[j][i];
+                 } else if (visited[i] == false && visited[j] == false) {
+                     linkSum += stat[i][j];
+                     linkSum += stat[j][i];
                 }
             }
         }
         answer = Math.min(answer, Math.abs(startSum - linkSum));
+        
+        if (answer == 0) {
+            System.out.println(0);
+            System.exit(0);
+        }
     }
 
     public static void dfs(int N, int depth, int start) {
