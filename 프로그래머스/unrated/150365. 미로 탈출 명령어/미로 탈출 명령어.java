@@ -34,20 +34,20 @@ class Solution {
             return;
         }
         
-            for(int i=0;i<4;i++) {
-                int tx = sx + dx[i];
-                int ty = sy + dy[i];
+        for(int i=0;i<4;i++) {
+            int tx = sx + dx[i];
+            int ty = sy + dy[i];
             
-                if (tx < 0 || tx >= m || ty < 0 || ty >= n) {
-                    continue;
-                }
-                if (!visited[ty][tx][tk]) {
-            visited[ty][tx][tk] = true;
+            if (tx < 0 || tx >= m || ty < 0 || ty >= n) {
+                continue;
+            }
+            if (!visited[ty][tx][tk]) {
+                visited[ty][tx][tk] = true;
                 answer.append(dirs[i]);
                 dfs(n, m, ty, tx, ey, ex, k, tk + 1);
-                answer.deleteCharAt(tk);}
+                answer.deleteCharAt(tk);
+            }
         }
-        
     }
     
     public String solution(int n, int m, int x, int y, int r, int c, int k) {
