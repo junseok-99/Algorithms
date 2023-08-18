@@ -18,7 +18,7 @@ class Solution {
             
             if (pq.isEmpty()) {
                 maxHour = maxHour - n < 0 ? 0 : maxHour - n;
-                break;
+                return (long)Math.pow(maxHour, 2);
             } else {
                 while (maxHour >= pq.peek() && maxHour > 0 && n > 0) {
                     maxHour--;
