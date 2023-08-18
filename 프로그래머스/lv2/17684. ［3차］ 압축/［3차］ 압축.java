@@ -21,14 +21,11 @@ class Solution {
             int tmp = i + 1;
             
             while (true) {
-                if (tmp == size) {
-                    li.add(dic.get(msg.substring(i, tmp)));
-                    i = tmp - 1;
-                    break;
-                }
                 
-                if (!dic.containsKey(msg.substring(i, tmp + 1))) {
-                    dic.put(msg.substring(i, tmp + 1), curValue++);
+                if (tmp == size || !dic.containsKey(msg.substring(i, tmp + 1))) {
+                    if (tmp < size) {
+                        dic.put(msg.substring(i, tmp + 1), curValue++);
+                    }
                     li.add(dic.get(msg.substring(i, tmp)));
                     i = tmp - 1;
                     break;
