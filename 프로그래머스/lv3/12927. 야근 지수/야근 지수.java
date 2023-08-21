@@ -33,7 +33,7 @@ class Solution {
             int num = pq.poll();
             answer += (long)Math.pow(num, 2);
         }
-        
+        System.out.println(Math.pow(-1, 2));
         return answer;
     }
 }
