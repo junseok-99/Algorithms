@@ -6,16 +6,19 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
         String s = br.readLine();
         int q = Integer.parseInt(br.readLine());
-        int[][] letters = new int[200001][26];
+        int[][] letters = new int[s.length() + 1][26];
 
         for (int i=0;i<s.length();i++) {
             int letter = s.charAt(i) - 'a';
-            letters[i+1] = letters[i].clone();
-            letters[i+1][letter] = letters[i][letter] + 1;
+            letters[i+1][letter]++;
+            for (int j=0;j<26;j++) {
+                letters[i+1][j] += letters[i][j];
+            }
         }
 
         for (int i=0;i<q;i++) {
@@ -24,8 +27,9 @@ public class Main {
             int l = Integer.parseInt(st.nextToken());
             int r = Integer.parseInt(st.nextToken()) + 1;
 
-            System.out.println(letters[r][letter] - letters[l][letter]);
+            bw.write(letters[r][letter] - letters[l][letter] + "\n");
         }
-
+        bw.flush();
+        bw.close();
     }
 }
