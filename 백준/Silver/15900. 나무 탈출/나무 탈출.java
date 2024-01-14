@@ -16,8 +16,8 @@ public class Main {
         initTree(N);
         visited[1] = true;
 
-        for (int rootChild : tree.get(1)) {
-            dfs(rootChild, 1);
+        for (int childOfRoot : tree.get(1)) {
+            dfs(childOfRoot, 1);
         }
 
         if (depthSum % 2 != 0) {
