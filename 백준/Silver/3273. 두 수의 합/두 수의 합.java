@@ -1,38 +1,40 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.*;
-
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-
-        int N = Integer.parseInt(br.readLine());
-        int[] arr = new int[N];
+        int n = Integer.parseInt(br.readLine());
+        int[] arr = new int[n];
+        
         st = new StringTokenizer(br.readLine());
-        for (int i = 0;i < N;i++) {
-            arr[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < n; i++) {
+        	arr[i] = Integer.parseInt(st.nextToken());
         }
-        int X = Integer.parseInt(br.readLine());
-        int l = 0, r = N - 1;
+        int x = Integer.parseInt(br.readLine());
+        
+        int l = 0;
+        int r = n - 1;
         int answer = 0;
         Arrays.sort(arr);
-
+        
         while (l < r) {
-            int sum = arr[l] + arr[r];
-
-            if (sum == X) {
-                ++l;
-                --r;
-                ++answer;
-            } else if (sum < X) {
-                ++l;
-            } else if (sum > X) {
-                --r;
-            }
+        	int sum = arr[l] + arr[r];
+        	
+        	if (sum == x) {
+        		l++;
+        		r--;
+        		answer++;
+        	} else if (sum < x) {
+        		l++;
+        	} else if (sum > x) {
+        		r--;
+        	}
         }
         System.out.println(answer);
     }
