@@ -1,7 +1,5 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -9,6 +7,7 @@ public class Main {
     private static boolean[][] visited;
     private static boolean[] dfsVisited = new boolean[6];
     private static List<Point> points = new ArrayList<Point>();
+    private static List<Integer> seqList = new LinkedList<>();
     private static Point startP;
     private static int answer = Integer.MAX_VALUE;
     private static int startR;
@@ -32,7 +31,7 @@ public class Main {
         startC = Integer.parseInt(st.nextToken());
         startP = new Point(startR, startC);
 
-        dfs(0, "");
+        dfs(0);
         System.out.println(answer);
     }
 
@@ -68,11 +67,10 @@ public class Main {
         return -1;
     }
 
-    public static void dfs(int depth, String seq) {
+    public static void dfs(int depth) {
         if (depth == 6) {
             int distSum = 0;
-            for (int i = 0; i < 6; i++) {
-                int seqN = seq.charAt(i) - '0';
+            for (int seqN : seqList) {
                 Point destPoint = points.get(seqN);
 
                 int dist = bfs(startP, destPoint);
@@ -90,7 +88,9 @@ public class Main {
         for (int i = 0; i <= 5; i++) {
             if (!dfsVisited[i]) {
                 dfsVisited[i] = true;
-                dfs(depth + 1, seq + i);
+                seqList.add(i);
+                dfs(depth + 1);
+                seqList.remove(depth);
                 dfsVisited[i] = false;
             }
         }
