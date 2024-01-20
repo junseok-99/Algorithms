@@ -16,7 +16,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
 
         for (int i = 0; i < 5; i++) {
@@ -47,6 +46,7 @@ public class Main {
 
         while (!q.isEmpty()) {
             Point p = q.pollFirst();
+
             if (p.compare(ep)) {
                 return p.dist;
             }
@@ -70,10 +70,9 @@ public class Main {
 
     public static void dfs(int depth, String seq) {
         if (depth == 6) {
-            List<Integer> seqList = Stream.of(seq.split("")).map(Integer::parseInt)
-                                                                  .collect(Collectors.toList());
             int distSum = 0;
-            for (int seqN : seqList) {
+            for (int i = 0; i < 6; i++) {
+                int seqN = seq.charAt(i) - '0';
                 Point destPoint = points.get(seqN);
 
                 int dist = bfs(startP, destPoint);
