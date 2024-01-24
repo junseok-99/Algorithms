@@ -35,18 +35,13 @@ public class Main {
             dx.add(Integer.parseInt(st.nextToken()));
         }
 
-        int answer = bfs(0);
-        if (answer == Integer.MAX_VALUE) {
-            answer = -1;
-        }
-        bw.write(answer + "");
+        bw.write(bfs(0) + "");
         bw.flush();
         bw.close();
     }
 
     public static int bfs(int row) {
         Deque<Person> q = new ArrayDeque<>();
-        int answer = Integer.MAX_VALUE;
 
         for (int i = 0; i < C; i++) {
             if (map[row][i] == 1) {
@@ -58,8 +53,7 @@ public class Main {
         while (!q.isEmpty()) {
             Person p = q.pollFirst();
             if (p.y == R - 1) {
-                answer = Math.min(answer, p.dist);
-                continue;
+                return p.dist;
             }
 
             for (int i = 0; i < N; i++) {
@@ -76,7 +70,7 @@ public class Main {
                 }
             }
         }
-        return answer;
+        return -1;
     }
 }
 
