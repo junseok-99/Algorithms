@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -12,6 +11,7 @@ public class Solution {
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
 		
 		for (int tc = 1; tc <= 10; tc++) {
@@ -26,14 +26,14 @@ public class Solution {
 			
 			for (int x = 0; x < 100; x++) {
 				if (map[0][x] == 1) {
-					visited = new boolean[100][100];
 					if (dfs(0, x)) {
-						System.out.println("#" + T + " " + x);
+						sb.append("#" + T + " " + x + "\n");
 						break;
 					}
 				}
 			}
 		}
+		System.out.println(sb.toString());
 	}
 	
 	public static boolean dfs(int y, int x) {
@@ -41,14 +41,14 @@ public class Solution {
 			return true;
 		}
 		
-		visited[y][x] = true;
-		
 		for (int i = 0; i < 3; i++) {
 			int ty = y + delta[i][0];
 			int tx = x + delta[i][1];
 			
 			if (isValidRange(ty, tx) && map[ty][tx] != 0 && !visited[ty][tx]) {
+				visited[y][x] = true;
 				boolean flag = dfs(ty, tx);
+				visited[y][x] = false;
 				return flag;
 			}
 		}
