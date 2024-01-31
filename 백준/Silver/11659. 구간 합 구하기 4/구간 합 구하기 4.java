@@ -13,23 +13,19 @@ public class Main {
 		int M = Integer.parseInt(st.nextToken());
 		
 		st = new StringTokenizer(br.readLine());
-		int[] arr = new int[N];
-		arr[0] = Integer.parseInt(st.nextToken());
+		int[] arr = new int[N + 1];
 		
-		for (int i = 1; i < N; i++) {
+		for (int i = 1; i <= N; i++) {
 			int num = Integer.parseInt(st.nextToken());
 			arr[i] += (num + arr[i - 1]);
 		}
 		
 		for (int idx = 0; idx < M; idx++) {
 			st = new StringTokenizer(br.readLine());
-			int i = Integer.parseInt(st.nextToken()) - 1;
-			int j = Integer.parseInt(st.nextToken()) - 1;
-			if (i == 0) {
-				sb.append(arr[j] + "\n");
-			} else {
-				sb.append((arr[j] - arr[i - 1]) + "\n");
-			}
+			int i = Integer.parseInt(st.nextToken());
+			int j = Integer.parseInt(st.nextToken());
+
+			sb.append((arr[j] - arr[i - 1]) + "\n");
 		}
 		
 		System.out.println(sb.toString());
