@@ -36,7 +36,7 @@ public class Main {
 			increaseCount(tmp);
 		}
 		
-		while (r < S) {
+		while (l <= r) {
 			if (validCharCount()) {
 				++answer;
 			}
