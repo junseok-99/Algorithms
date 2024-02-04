@@ -9,7 +9,7 @@ public class Main {
 
     public static int[][] map;
     public static int N;
-    //모래가 흩어지는 비율의 delta
+    //모래가 흩어지는 비율의 delta 좌, 하 (우, 상이면 -1을 곱해서 사용)
     public static int[][][] delta = {
             {{0, -2}, {-1, -1}, {1, -1}, {-1, 0}, {1, 0}, {-2, 0}, {2, 0}, {-1, 1}, {1, 1}},
             {{2, 0}, {1, 1}, {1, -1}, {0, 1}, {0, -1}, {0, 2}, {0, -2}, {-1, 1}, {-1, -1}}
@@ -34,7 +34,8 @@ public class Main {
         }
 
         int mid = N / 2;
-        System.out.println(bfs(mid, mid));
+        StringBuilder sb = new StringBuilder(bfs(mid, mid) + "");
+        System.out.println(sb);
     }
 
     public static int bfs(int r, int c) {
