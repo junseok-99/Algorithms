@@ -20,8 +20,10 @@ public class Main {
 		}
 		
 		int idx = 0;
-		while (!q.isEmpty()) {
+		//사람들 계속 돌리기
+		while (true) {
 			int n = q.poll();
+			//K번째가 되면 제거
 			if ((idx + 1) % K == 0) {
 				if (q.isEmpty()) {
 					sb.append(n).append(">");
