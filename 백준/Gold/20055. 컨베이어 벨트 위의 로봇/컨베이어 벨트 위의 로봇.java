@@ -64,11 +64,6 @@ public class Main {
                 top.get(i).isRobot = false;
             }
 
-            //로봇내리기
-            if (top.get(N - 1).isRobot) {
-                top.get(N - 1).isRobot = false;
-            }
-
             //3. 올리는 위치에 있는 칸의 내구도가 0이 아니면 올리는 위치에 로봇을 올린다.
             if (!top.get(0).isRobot && top.get(0).num > 0) {
                 top.get(0).isRobot = true;
