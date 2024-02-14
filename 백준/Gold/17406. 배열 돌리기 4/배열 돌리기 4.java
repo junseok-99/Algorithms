@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+//mem: 35,704kb	time: 232ms
 public class Main {
 
     static int[][] map;
@@ -54,11 +55,9 @@ public class Main {
         if (dir == 4) {
             return;
         }
-
         int num = copyMap[y][x];
         int tx = x + delta[dir][0];
         int ty = y + delta[dir][1];
-
 
         if (startP.inValidRange(ty, tx)) {
             dir++;
@@ -75,7 +74,7 @@ public class Main {
         for (int i = 0; i < K; i++) {
             SpinFlag sFlag = flags[idxs[i]];
             for (int j = 1; j <= sFlag.s; j++) {
-                Pos startP = new Pos(sFlag.r - j, sFlag.c - j, sFlag.r + j, sFlag.c + j);
+                Pos startP = new Pos(sFlag, j);
                 dfs(startP.startY, startP.startX, startP, 0, copyMap);
             }
         }
@@ -106,7 +105,6 @@ public class Main {
     public static void permu(int depth) {
         if (depth == K) {
             spin();
-            //System.out.println(Arrays.toString(idxs));
             return;
         }
 
@@ -145,11 +143,11 @@ class Pos {
         this.endX = endX;
     }
 
-    public Pos(int r) {
-        this.startY = startY + r;
-        this.startX = startX + r;
-        this.endY = endY - r;
-        this.endX = endX - r;
+    public Pos(SpinFlag sFlag, int s) {
+        this.startY = sFlag.r - s;
+        this.startX = sFlag.c - s;
+        this.endY = sFlag.r + s;
+        this.endX = sFlag.c + s;
     }
 
     public boolean inValidRange(int ty, int tx) {
