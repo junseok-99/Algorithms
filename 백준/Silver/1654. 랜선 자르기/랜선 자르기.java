@@ -5,45 +5,43 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+	static int K;
+	static int[] cables;
+	static int N;
+	
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int K = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		int[] cables = new int[K];
+		
+		long minLength = 0;
+		long maxLength = -1;
+		for (int i = 0; i < K; i++) {
+			cables[i] = Integer.parseInt(br.readLine());
+			maxLength = Math.max(maxLength, cables[i]);
+		}
+		maxLength++;
+		
+		while (minLength < maxLength) {
+			long midLength = (maxLength + minLength) / 2L;
+			
+			int tmpN = 0;
+			for (int cable : cables) {
+				tmpN += (cable / midLength);
+				if (tmpN > N) {
+					break;
+				}
+			}
+			
+			if (tmpN >= N) {
+				minLength = midLength + 1;
+			} else if (tmpN < N) {
+				maxLength = midLength;
+			}
+		}
+		System.out.println(minLength - 1);
+	}
 
-        int K = Integer.parseInt(st.nextToken());
-        int N = Integer.parseInt(st.nextToken());
-        int[] cables = new int[K];
-        long left = 0;
-        long right = 0;
-
-        for(int i=0;i<K;i++) {
-            cables[i] = Integer.parseInt(br.readLine());
-            right = Math.max(right, (long)cables[i]);
-        }
-
-        right++;
-
-        while (left < right) {
-            long mid = (left + right) / 2L;
-            int ret = checkCable(cables, N, mid);
-
-            if (ret < N) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-        System.out.println(left - 1);
-    }
-
-    public static int checkCable(int[] cables, int N, long div) {
-        int sum = 0;
-
-        for(int cable: cables) {
-            sum += (int)((long)cable / div);
-            if (sum > N) {
-                break;
-            }
-        }
-        return sum;
-    }
 }
