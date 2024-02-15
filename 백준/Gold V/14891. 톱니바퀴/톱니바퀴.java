@@ -10,10 +10,12 @@ public class Main {
 		StringTokenizer st;
 		CogWheel[] cogWheels = new CogWheel[6];
 		
+		//톱니바퀴 초기화
 		for (int i = 1; i <= 4; i++) {
 			cogWheels[i] = new CogWheel(br.readLine());
 		}
 		
+		//톱니바퀴 회전
 		int K = Integer.parseInt(br.readLine());
 		for (int i = 0; i < K; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -21,9 +23,10 @@ public class Main {
 			int spinDir = Integer.parseInt(st.nextToken());
 			cogWheels[wheelNumber].spinFlag = spinDir;
 			
-			dfs(wheelNumber, cogWheels, -1);
-			dfs(wheelNumber, cogWheels, 1);
+			dfs(wheelNumber, cogWheels, -1); //현재 바퀴의 왼쪽들 회전여부 계산
+			dfs(wheelNumber, cogWheels, 1); //현재 바퀴의 오른쪽들 회전여부 계산
 			
+			//회전여부 계산 후 회전
 			for (int j = 1; j <= 4; j++) {
 				cogWheels[j].spin();
 			}
@@ -62,7 +65,6 @@ public class Main {
 }
 
 class CogWheel {
-	// 0: 위쪽, 2: 오른쪽, 6: 왼쪽
 	int[] poles = new int[8];
 	int top;
 	int left;
@@ -78,7 +80,7 @@ class CogWheel {
 		left = poles[6];
 	}
 	
-	public void spin() {
+	public void spin() { //회전
 		if (spinFlag == 1) 
 			rightSpin();
 		else if (spinFlag == -1)
@@ -103,13 +105,5 @@ class CogWheel {
 			tmp[i % 8] = poles[(i - 1) % 8];
 		}
 		poles = tmp;
-	}
-	
-	public String toString() {
-		String s = "";
-		for (int i = 0; i < 8; i++) {
-			s += poles[i] + " ";
-		}
-		return s + "\n";
 	}
 }
