@@ -2,20 +2,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
+//mem: 24,424 kb , time: 134ms
 public class Solution {
 	
-	static Maps[][] map;
-	static int[] bcPerformances;
-	static int[] userInfoA;
-	static int[] userInfoB;
+	static Maps[][] map; 
+	static int[] bcPerformances; //bc의 performance들
+	static int[] userInfoA; 	 //사용자 A의 움직임
+	static int[] userInfoB;		 //사용자 B의 움직임
 	static int answer;
-	static int[] curUserBC;
-	static int maxChargeA;
-	static int maxChargeB;
+	static int[] curUserBC;		 ///사용자들이 위치하는 bc (경우의 수 만듬)
 	static int maxSum;
 	
 	public static void main(String[] args) throws IOException {
@@ -25,6 +23,7 @@ public class Solution {
         StringBuilder sb = new StringBuilder();
         
         for (int tc = 1; tc <= T; tc++) {
+        	//각종 변수 초기화
         	st = new StringTokenizer(br.readLine());
         	int M = Integer.parseInt(st.nextToken());
         	int A = Integer.parseInt(st.nextToken());
@@ -66,16 +65,20 @@ public class Solution {
         		installBC(y, x, C, i);
         	}
         	
+        	//사용자 움직이기
         	moveUser(M);
         	sb.append("#").append(tc).append(' ').append(answer).append("\n");
         }
         System.out.println(sb);
 	}
 	
+	//사용자 움직임
 	public static void moveUser(int M) {
+		//사용자 시작점 지정
 		User A = new User(0, 0);
 		User B = new User(9, 9);
 		
+		//매번 충전 후 움직임
 		for (int i = 0; i <= M; i++) {
 			charge(A, B);
 			if (i == M) {
@@ -86,14 +89,14 @@ public class Solution {
 		}
 	}
 	
+	//가장 충전량이 큰 값을 더함
 	public static void charge(User A, User B) {
-//		maxChargeA = 0;
-//		maxChargeB = 0;
 		maxSum = 0;
 		combi(0, A, B);
 		answer += maxSum;
 	}
 	
+	//사용자들이 위치할 수 있는 모든 경우를 구한 후 계산
 	public static void combi(int depth, User A, User B) {
 		if (depth == 2) {
 			int[] cnt = new int[bcPerformances.length];
@@ -101,8 +104,8 @@ public class Solution {
 			int bcOfB = curUserBC[1];
 			cnt[bcOfA]++;
 			cnt[bcOfB]++;
-			int ChargeA = Math.max(maxChargeA, bcPerformances[bcOfA] / cnt[bcOfA]);
-			int ChargeB = Math.max(maxChargeB, bcPerformances[bcOfB] / cnt[bcOfB]);
+			int ChargeA = bcPerformances[bcOfA] / cnt[bcOfA];
+			int ChargeB = bcPerformances[bcOfB] / cnt[bcOfB];
 			maxSum = Math.max(maxSum, ChargeA + ChargeB);
 			return;
 		}
@@ -131,6 +134,7 @@ public class Solution {
 		}
 	}
 
+	//map에 bc설치하기
 	public static void installBC(int y, int x, int C, int n) {
 		int dx = 0;
 		int tmp = 1;
@@ -171,12 +175,6 @@ class Maps {
 		return bcList.isEmpty();
 	}
 	
-//	public void changeBCInfo(BatteryCharger[] bc) {
-//		for (int bcNum : bcList) {
-//			bc[bcNum].addUser();
-//		}
-//	}
-	
 	public String toString() {
 		return bcList.toString();
 	}
@@ -198,25 +196,3 @@ class User {
 		else if (dir == 4) x--;
 	}
 }
-
-//class BatteryCharger{
-//	
-//	int performance;
-//	int currentUser;
-//	
-//	BatteryCharger(int P) {
-//		this.performance = P;
-//	}
-//	
-//	public int getPerformance() {
-//		return performance / currentUser;
-//	}
-//	
-//	public void addUser() {
-//		this.currentUser++;
-//	}
-//	
-//	public void removeUser() {
-//		this.currentUser++;
-//	}
-//}
