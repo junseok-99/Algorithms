@@ -14,10 +14,12 @@ public class Main {
 	static List<Point> pts = new ArrayList<>();
 	static int[] idxs = new int[7];
 	static int[][] delta = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+	static boolean[][] visited;
 	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		map = new char[5][5];
+		visited = new boolean[5][5];
 		
 		for (int i = 0; i < 5; i++) {
 			String line = br.readLine();
@@ -42,25 +44,21 @@ public class Main {
 		
 		for (int i = idx; i < 25; i++) {
 			idxs[depth] = i;
-			int da = map[pts.get(i).y][pts.get(i).x] == 'S' ? 1 : 0;
+			int y = pts.get(i).y;
+			int x = pts.get(i).x;
+			int da = map[y][x] == 'S' ? 1 : 0;
+			visited[y][x] = true;
 			dfs(i + 1, depth + 1, dasom + da);
+			visited[y][x] = false;
 		}
 	}
 
 	public static void bfs() {
 		Deque<Point> q = new ArrayDeque<>();
-		boolean[][] visited = new boolean[5][5];
-		
-		for (int i = 0; i < 5; i++) {
-			Arrays.fill(visited[i], true);
-		}
-		
-		for (int i : idxs) {
-			visited[pts.get(i).y][pts.get(i).x] = false;
-		}
+		boolean[][] v2 = new boolean[5][5];
 		
 		Point sp = pts.get(idxs[0]);
-		visited[sp.y][sp.x] = true;
+		v2[sp.y][sp.x] = true;
 		q.add(new Point(sp.y, sp.x));
 		int depth = 0;
 		
@@ -76,8 +74,8 @@ public class Main {
 				if (tx < 0 || tx >= 5 || ty < 0 || ty >= 5) {
 					continue;
 				}
-				if (!visited[ty][tx]) {
-					visited[ty][tx] = true;
+				if (!v2[ty][tx] && visited[ty][tx]) {
+					v2[ty][tx] = true;
 					q.add(new Point(ty, tx));
 				}
 			}
