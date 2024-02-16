@@ -29,12 +29,15 @@ public class Main {
 			}
 		}
 
-		dfs(0, 0, 0);
+		dfs(0, 0, 0, 0);
 		
 		System.out.println(answer);
 	}
 	
-	public static void dfs(int idx, int depth, int dasom) {
+	public static void dfs(int idx, int depth, int dasom, int doyeon) {
+		if (doyeon >= 4) {
+			return;
+		}
 		if (depth == 7) {
 			if (dasom >= 4) {
 				bfs();
@@ -47,8 +50,9 @@ public class Main {
 			int y = pts.get(i).y;
 			int x = pts.get(i).x;
 			int da = map[y][x] == 'S' ? 1 : 0;
+			int doy = map[y][x] == 'Y' ? 1 : 0;
 			visited[y][x] = true;
-			dfs(i + 1, depth + 1, dasom + da);
+			dfs(i + 1, depth + 1, dasom + da, doyeon + doy);
 			visited[y][x] = false;
 		}
 	}
