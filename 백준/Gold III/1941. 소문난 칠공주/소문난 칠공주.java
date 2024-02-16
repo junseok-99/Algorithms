@@ -5,9 +5,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class Main {
 
@@ -29,20 +27,13 @@ public class Main {
 			}
 		}
 
-		dfs(0, 0);
+		dfs(0, 0, 0);
 		
 		System.out.println(answer);
 	}
 	
-	public static void dfs(int idx, int depth) {
+	public static void dfs(int idx, int depth, int dasom) {
 		if (depth == 7) {
-			int dasom = 0;
-			for (int i : idxs) {
-				char c = map[pts.get(i).y][pts.get(i).x];
-				if (c == 'S') {
-					dasom++;
-				}
-			}
 			if (dasom >= 4) {
 				bfs();
 			}
@@ -51,7 +42,8 @@ public class Main {
 		
 		for (int i = idx; i < 25; i++) {
 			idxs[depth] = i;
-			dfs(i + 1, depth + 1);
+			int da = map[pts.get(i).y][pts.get(i).x] == 'S' ? 1 : 0;
+			dfs(i + 1, depth + 1, dasom + da);
 		}
 	}
 
