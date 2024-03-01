@@ -76,20 +76,18 @@ public class Solution {
         subSet(depth + 1);
     }
 
-
     //계단 내려가기
     public static int downFloor(PriorityQueue<Person> pq) {
         int curPerson = persons.size();
         int time = 1;
-        for (int i = 0; i < 2; i++) {
-            floors[i].clear();
-        }
+
         while (true) {
+            //사람을 내려보낸다
             for (int i = 0; i < 2; i++) {
                 curPerson -= floors[i].completedDown(time);
             }
 
-            //사람이 계단으로 이동했으면
+            //사람을 계단 입구로 이동시킴
             while (!pq.isEmpty() && pq.peek().time == time) {
                 Person person = pq.poll();
                 int floorNum = person.floorNum;
@@ -97,17 +95,9 @@ public class Solution {
                 floors[floorNum].addPerson(person, time);
             }
 
-
-//            System.out.println("Time = " + curPerson);
-            //계단에 있는 대기자 입구로 이동
-//            for (int i = 0; i < 2; i++) {
-//                floors[i].addWaitPerson();
-//            }
-            //System.out.println(curPerson);
             if (curPerson == 0) break;
             time++;
         }
-//        System.out.println("FINAL TIME = " + time);
         return time;
     }
 }
@@ -125,15 +115,9 @@ class Floor {
         waitQ = new ArrayDeque<>();
     }
 
-    public void clear() {
-        inQ.clear();
-        waitQ.clear();
-    }
-
     //계단을 내려간 사람의 수
     public int completedDown(int curTime) {
         int cnt = 0;
-
         while (!inQ.isEmpty() && inQ.peek().time == curTime) {
             cnt++;
             inQ.poll();
@@ -145,13 +129,8 @@ class Floor {
     //계단에 사람 추가
     public void addPerson(Person person, int curTime) {
         person.setTime(downTime + curTime + 1);
-        if (inQ.size() == 3) {
-            person.setTime(curTime + 1);
-            waitQ.add(person);
-        }
-        else if (inQ.size() < 3)
-            inQ.add(person);
-
+        if (inQ.size() == 3) waitQ.add(person); //계단에 사람이 꽉 차있으면 대기큐로 이동
+        else if (inQ.size() < 3) inQ.add(person); //계단에 자리가 있으면 내림
     }
 
     //대기자 입구로 이동
@@ -163,6 +142,7 @@ class Floor {
         }
     }
 
+    //사람의 위치에서 입구까지가는 시간
     public int getTime(Point p) {
         return Math.abs(this.p.x - p.x) + Math.abs(this.p.y - p.y);
     }
@@ -181,10 +161,6 @@ class Person implements Comparable<Person>{
 
     public void setTime(int time) {
         this.time = time;
-    }
-
-    public String toString() {
-        return time + ", ";
     }
 
     @Override
