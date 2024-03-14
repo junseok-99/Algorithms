@@ -30,6 +30,7 @@ public class Main {
                 if (cutTreeLen > 0) {
                     sumCutTreeLen += cutTreeLen;
                 }
+                if (sumCutTreeLen >= M) break;
             }
 
             if (sumCutTreeLen >= (long)M) {
