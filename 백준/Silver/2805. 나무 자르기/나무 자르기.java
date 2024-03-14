@@ -19,7 +19,7 @@ public class Main {
             maxHeight = Math.max(maxHeight, trees[i]);
         }
 
-        int left = 0;
+        int left = 1;
         int right = maxHeight;
 
         while (left < right) {
