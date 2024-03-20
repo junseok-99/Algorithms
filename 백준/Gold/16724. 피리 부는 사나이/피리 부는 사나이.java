@@ -48,13 +48,15 @@ public class Main {
             return visited[y][x];
         }
 
-        visited[y][x] = -1;
+        visited[y][x] = -1; //방문했음을 체크
+        int ty = y;
+        int tx = x;
         char dir = map[y][x];
-        if (dir == 'D') visited[y][x] = dfs(y + 1, x);
-        else if (dir == 'R') visited[y][x] = dfs(y, x + 1);
-        else if (dir == 'U') visited[y][x] = dfs(y - 1, x);
-        else if (dir == 'L') visited[y][x] = dfs(y, x - 1);
+        if (dir == 'D') ty++;
+        else if (dir == 'R') tx++;
+        else if (dir == 'U') ty--;
+        else if (dir == 'L') tx--;
 
-        return visited[y][x];
+        return visited[y][x] = dfs(ty, tx);
     }
 }
