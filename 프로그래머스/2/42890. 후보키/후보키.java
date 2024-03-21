@@ -24,15 +24,14 @@ class Solution {
         
         if (depth > 0) {
             boolean isUnique = checkUnique(depth, -1); //유일성
-            boolean isMinimal = true;                  //최소성
+            boolean isMinimal = false;                  //최소성
 
-            boolean flag = false;
             for (int i = 0; i < depth && depth > 1; i++) {
-                flag = checkUnique(depth, i); 
-                if (flag) break;
+                isMinimal = checkUnique(depth, i); 
+                if (isMinimal) break;
             }
 
-            if (isUnique && !flag) ++answer;
+            if (isUnique && !isMinimal) ++answer;
         }
         
         for (int i = idx; i < maxDepth; i++) {
