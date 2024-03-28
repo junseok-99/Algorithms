@@ -49,18 +49,16 @@ public class Main {
 				if (invalidRange(tr, tc) || map[tr][tc] == '#') continue;
 				if (visited[m.key][tr][tc]) continue;
 				
+				visited[m.key][tr][tc] = true;
 				if (isKey(map[tr][tc])) {
-					visited[m.key][tr][tc] = true;
 					int key = m.key | (1 << (map[tr][tc] - 'a'));
 					q.add(new Minsik(tr, tc, m.dist + 1, key));
 				} else if (isDoor(map[tr][tc])) {
 					int key = 1 << (map[tr][tc] - 'A');
 					if ((m.key & key) != key) continue;
-					visited[m.key][tr][tc] = true;
 					q.add(new Minsik(tr, tc, m.dist + 1, m.key));
 				} else {
 					if (map[tr][tc] == '1') return m.dist + 1;
-					visited[m.key][tr][tc] = true;
 					q.add(new Minsik(tr, tc, m.dist + 1, m.key));
 				}	
 			}
