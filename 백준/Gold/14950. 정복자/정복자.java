@@ -8,9 +8,8 @@ public class Main {
     static int N;
     static int M;
     static int t;
-    static List<List<Integer>> list = new ArrayList<>();
     static int[] parents;
-    static PriorityQueue<Info> pq = new PriorityQueue<>();
+    static List<Info> li = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,7 +20,6 @@ public class Main {
         parents = new int[N + 1];
 
         for (int i = 0; i <= N; i++) {
-            list.add(new ArrayList<>());
             parents[i] = i;
         }
 
@@ -31,44 +29,20 @@ public class Main {
             int b = Integer.parseInt(st.nextToken());
             int w = Integer.parseInt(st.nextToken());
 
-            list.get(a).add(b);
-            list.get(b).add(a);
-
-            pq.add(new Info(a, b, w));
+            li.add(new Info(a, b, w));
         }
+        Collections.sort(li);
 
         int cnt = 0;
-        long answer = 0;
-        while (cnt < N) {
-            Deque<Info> q = new ArrayDeque<>();
-
-            while (true) {
-                Info info = pq.poll();
-
-                if ((find(info.s) == 1 || find(info.d) == 1) && (isJungbok(info.s) || isJungbok(info.d))) {
-                    if (union(info.s, info.d)) {
-                        answer += (long)(info.weight + t * cnt);
-                        cnt++;
-                        break;
-                    }
-                } else {
-                    q.add(info);
-                }
-
-            }
-            if (cnt == N - 1) break;
-            while (!q.isEmpty()) {
-                pq.add(q.poll());
+        int answer = 0;
+        for (Info info : li) {
+            if (find(info.s) == find(info.d)) continue;
+            if (union(info.s, info.d)) {
+                answer += (info.weight + t * cnt);
+                cnt++;
             }
         }
         System.out.println(answer);
-    }
-
-    public static boolean isJungbok(int a) {
-        for (int n : list.get(a)) {
-            if (find(n) == 1) return true;
-        }
-        return false;
     }
 
     public static boolean union(int a, int b) {
