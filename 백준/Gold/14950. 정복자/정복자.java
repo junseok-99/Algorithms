@@ -36,7 +36,6 @@ public class Main {
         int cnt = 0;
         int answer = 0;
         for (Info info : li) {
-            if (find(info.s) == find(info.d)) continue;
             if (union(info.s, info.d)) {
                 answer += (info.weight + t * cnt);
                 cnt++;
