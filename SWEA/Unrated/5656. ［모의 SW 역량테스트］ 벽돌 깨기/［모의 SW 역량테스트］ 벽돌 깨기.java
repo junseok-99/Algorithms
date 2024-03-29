@@ -5,6 +5,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.StringTokenizer;
 
+//mem: 95,816 kb , time: 587 ms
 public class Solution {
 
 	static int N;
@@ -44,6 +45,7 @@ public class Solution {
 	
 	//떨어트릴 위치 중복 순열로 뽑기
 	public static void permu(int depth) {
+		if (answer == 0) return;
 		if (depth == N) {
 			drop();
 			return;
