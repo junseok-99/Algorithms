@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Solution {
@@ -70,17 +72,17 @@ public class Solution {
 	
 	//벽돌 내리기
 	public static void downWall(int[][] copyMap) {
+		Deque<Integer> q = new ArrayDeque<>();
+		
 		for (int x = 0; x < W; x++) {
 			for (int y = H - 1; y >= 0; y--) {
-				if (copyMap[y][x] == 0) {
-					for (int t = y - 1; t >= 0; t--) {
-						if (copyMap[t][x] > 0) {
-							copyMap[y][x] = copyMap[t][x];
-							copyMap[t][x] = 0;
-							break;
-						}
-					}
-				}
+				if (copyMap[y][x] > 0) q.add(copyMap[y][x]);
+				copyMap[y][x] = 0;
+			}
+			
+			int size = q.size();
+			for (int i = 1; i <= size; i++) {
+				copyMap[H - i][x] = q.poll();
 			}
 		}
 	}
