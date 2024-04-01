@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
+//mem: 14,288kb , time:128ms
 public class Main {
 
     static int N;
@@ -44,7 +45,8 @@ public class Main {
         Collections.sort(edgeList);
         makeSet();
 
-        int cnt = 0;
+        //끄루스깔
+        int cnt = 1;
         int weightSum = 0;
         for (Edge edge : edgeList) {
             int a = edge.source;
@@ -57,17 +59,11 @@ public class Main {
 
             if (cnt == allIslandCount) break;
         }
-
-        for (int i = 1; i <= allIslandCount; i++) {
-            parents[i] = find(i);
-        }
-        for (int i = 1; i <= allIslandCount; i++) {
-            if (parents[i] != parents[1]) {
-                weightSum = -1;
-                break;
-            }
-        }
-        System.out.println(weightSum);
+        
+        //break가 되어 빠져나온건지 모르기 때문에 재확인
+        //모든 섬이 연결되었는지 확인해야함
+        if (cnt != allIslandCount) System.out.println(-1);
+        else System.out.println(weightSum);
     }
 
     public static void makeSet() {
@@ -156,6 +152,6 @@ class Edge implements Comparable<Edge> {
 
     @Override
     public int compareTo(Edge o) {
-        return Integer.compare(this.weight, o.weight);
+        return this.weight - o.weight;
     }
 }
