@@ -6,6 +6,7 @@ import java.util.Deque;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
+//mem: 21,148kb , time: 188ms
 public class Main {
 
 	static int N;
@@ -32,7 +33,7 @@ public class Main {
 			}
 		}
 		
-		while (isEatFishes()) {
+		while (true) {
 			PriorityQueue<Fish> pq = bfs();
 			Fish fish = pq.poll();
 			if (fish == null) break;
@@ -68,15 +69,6 @@ public class Main {
 			}
 		}
 		return pq;
-	}
-	
-	public static boolean isEatFishes() {
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				if (map[i][j] < shark.size && map[i][j] > 0) return true;
-			}
-		}
-		return false;
 	}
 	
 	public static boolean invalidRange(int x, int y) {
