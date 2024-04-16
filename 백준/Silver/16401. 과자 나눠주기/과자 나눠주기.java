@@ -20,9 +20,9 @@ public class Main {
             arr[i] = Integer.parseInt(st.nextToken());
             maxLen = Math.max(maxLen, arr[i]);
         }
-        int l = 1, r = maxLen;
+        int l = 1, r = maxLen + 1;
 
-        while (l <= r) {
+        while (l < r) {
             int mid = (l + r) / 2;
 
             int cnt = 0;
@@ -31,12 +31,12 @@ public class Main {
             }
 
             if (cnt < M) {
-                r = mid - 1;
+                r = mid;
             } else if (cnt >= M) {
                 answer = mid;
                 l = mid + 1;
             }
         }
-        System.out.println(answer == Integer.MIN_VALUE ? 0 : answer);
+        System.out.println(answer);
     }
 }
