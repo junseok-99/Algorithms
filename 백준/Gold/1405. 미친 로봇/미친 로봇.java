@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -22,7 +23,9 @@ public class Main {
 
         visited[14][14] = true;
         backTrack(14, 14, 1.0, 0);
-        System.out.println(answer);
+
+        BigDecimal bigDecimal = new BigDecimal(answer);
+        System.out.println(bigDecimal);
     }
 
     public static void backTrack(int r, int c, double sum, int depth) {
@@ -35,7 +38,7 @@ public class Main {
         for (int i = 0; i < 4; i++) {
             int tr = r + d[i][0];
             int tc = c + d[i][1];
-            if (visited[tr][tc]) continue;
+            if (visited[tr][tc] || ewnsArr[i] == 0.0) continue;
             visited[tr][tc] = true;
             backTrack(tr, tc, sum * ewnsArr[i], depth + 1);
             visited[tr][tc] = false;
