@@ -1,28 +1,25 @@
 class Solution {
     
-    private int cnt = 0;
-    private int answer = -1;
-    private String[] arr = {"A", "E", "I", "O", "U"};
+    static char[] mo = {'A', 'E', 'I', 'O', 'U'};
+    static int cnt = 0;
+    static int answer = -1;
     
     public int solution(String word) {
-        backTracking("", word, 0);
+        dfs(0, word, "");
         return answer;
     }
     
-    public void backTracking(String str, String word, int depth) {
-        if (depth > 5 || answer > -1) {
-            return;
-        }
-        
-        if (str.equals(word)) {
+    public void dfs(int depth, String tmp, String word) {
+        if (answer > 0) return;
+        if (word.equals(tmp)) {
             answer = cnt;
             return;
         }
+        if (depth > 5) return;
         
         ++cnt;
-        
         for (int i = 0; i < 5; i++) {
-            backTracking(str + arr[i], word, depth + 1);
+            dfs(depth + 1, tmp, word + mo[i]);
         }
     }
 }
