@@ -1,58 +1,54 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.PriorityQueue;
+import java.util.StringTokenizer;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException{
-
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        int N = Integer.parseInt(br.readLine());
+        PriorityQueue<Room> pq = new PriorityQueue();
+        StringTokenizer st;
 
-        int n = Integer.parseInt(br.readLine());
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            int s = Integer.parseInt(st.nextToken());
+            int e = Integer.parseInt(st.nextToken());
+
+            pq.add(new Room(s, e));
+        }
+
+        int endTime = pq.poll().e;
         int answer = 1;
 
-        List<int[]> rooms = new ArrayList<>();
+        while (!pq.isEmpty()) {
+            Room room = pq.poll();
 
-        for(int i=0;i<n;i++) {
-            String[] room = br.readLine().split(" ");
-            rooms.add(new int[]{Integer.parseInt(room[0]), Integer.parseInt(room[1])});
-        }
-
-        Collections.sort(rooms, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if(o1[1] == o2[1]) {
-                    return o1[0] - o2[0];
-                }
-                return o1[1] - o2[1];
-            }
-        });
-
-        int lastEndTime = rooms.get(0)[1];
-        for(int i=1;i<n;i++) {
-            if(rooms.get(i)[0] < lastEndTime) {
-                continue;
-            } else if(rooms.get(i)[0] >= lastEndTime){
-                answer++;
-                lastEndTime = rooms.get(i)[1];
+            if (room.s >= endTime) {
+                ++answer;
+                endTime = room.e;
             }
         }
-        bw.write(answer+"");
-        bw.flush();
-        bw.close();
+        System.out.println(answer);
+    }
 
-        /*
-        1 2 3 4
-            3 4 5
-      0 1 2 3 4 5 6
-                5 6 7
-            3 4 5 6 7 8
-                5 6 7 8 9
-                  6 7 8 9 10
-                      8 9 10 11
-                      8 9 10 11 12
-          2 3 4 5 6 7 8 9 10 11 12 13
-                                12 13 14
-        */
+}
+
+class Room implements Comparable<Room>{
+    int s;
+    int e;
+
+    public Room(int s, int e) {
+        this.s = s;
+        this.e = e;
+    }
+
+    public int compareTo(Room tr) {
+        if (Integer.compare(this.e, tr.e) == 0) {
+            return Integer.compare(this.s, tr.s);
+        }
+        return Integer.compare(this.e, tr.e);
     }
 }
