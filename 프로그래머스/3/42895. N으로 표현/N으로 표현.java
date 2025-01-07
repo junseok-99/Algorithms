@@ -10,21 +10,19 @@ import java.util.*;
 class Solution {
     public int solution(int N, int number) {
         List<Set<Integer>> list = new ArrayList<>();
-        int tmp = N;
+        int tmp = 0;
         int cnt = 1;
         
         if (N == number) return 1;
         
         for (int i = 0; i <= 8; i++) {
             list.add(new HashSet<>());
+            list.get(i).add(tmp);
+            tmp = tmp * 10 + N;
         }
-        
-        list.get(1).add(N);
-        
+                
         for (int step = 2; step <= 8; step++) {
             int n1 = 1;
-            tmp = tmp * 10 + N;
-            list.get(step).add(tmp);
             
             if (tmp == number) return step;
             
@@ -45,14 +43,11 @@ class Solution {
                         list.get(step).add(rets[1]);
                         list.get(step).add(rets[2]);
                         list.get(step).add(rets[3]);
-                        
-                        for (int i = 0; i < 4; i++) {
-                            if (rets[i] == number) return step;
-                        }
                     }
                 }
                 ++n1;
             }
+            if (list.get(step).contains(number)) return step;
         }
         return -1;
     }
