@@ -31,23 +31,10 @@ public class Main {
 
         for (int i = 0; i < N - 1; i++) {
             for (int j = 0; j < 3; j++) {
-                if (j == 0) {
-                    minDp[i + 1][j] = Math.min(minDp[i + 1][j], minDp[i][j] + map[i + 1][j]);
-                    minDp[i + 1][j + 1] = Math.min(minDp[i + 1][j + 1], minDp[i][j] + map[i + 1][j + 1]);
-                    maxDp[i + 1][j] = Math.max(maxDp[i + 1][j], maxDp[i][j] + map[i + 1][j]);
-                    maxDp[i + 1][j + 1] = Math.max(maxDp[i + 1][j + 1], maxDp[i][j] + map[i + 1][j + 1]);
-                } else if (j == 1) {
-                    minDp[i + 1][j - 1] = Math.min(minDp[i + 1][j - 1], minDp[i][j] + map[i + 1][j - 1]);
-                    minDp[i + 1][j] = Math.min(minDp[i + 1][j], minDp[i][j] + map[i + 1][j]);
-                    minDp[i + 1][j + 1] = Math.min(minDp[i + 1][j + 1], minDp[i][j] + map[i + 1][j + 1]);
-                    maxDp[i + 1][j - 1] = Math.max(maxDp[i + 1][j - 1], maxDp[i][j] + map[i + 1][j - 1]);
-                    maxDp[i + 1][j] = Math.max(maxDp[i + 1][j], maxDp[i][j] + map[i + 1][j]);
-                    maxDp[i + 1][j + 1] = Math.max(maxDp[i + 1][j + 1], maxDp[i][j] + map[i + 1][j + 1]);
-                } else if (j == 2) {
-                    minDp[i + 1][j - 1] = Math.min(minDp[i + 1][j - 1], minDp[i][j] + map[i + 1][j - 1]);
-                    minDp[i + 1][j] = Math.min(minDp[i + 1][j], minDp[i][j] + map[i + 1][j]);
-                    maxDp[i + 1][j - 1] = Math.max(maxDp[i + 1][j - 1], maxDp[i][j] + map[i + 1][j - 1]);
-                    maxDp[i + 1][j] = Math.max(maxDp[i + 1][j], maxDp[i][j] + map[i + 1][j]);
+                for (int k = -1; k <= 1; k++) {
+                    if (j + k < 0 || j + k >= 3) continue;
+                    minDp[i + 1][j + k] = Math.min(minDp[i + 1][j + k], minDp[i][j] + map[i + 1][j + k]);
+                    maxDp[i + 1][j + k] = Math.max(maxDp[i + 1][j + k], maxDp[i][j] + map[i + 1][j + k]);
                 }
             }
         }
