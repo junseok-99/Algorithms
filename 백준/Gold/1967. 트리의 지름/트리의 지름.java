@@ -8,6 +8,7 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int N;
+    static int longNodeOfRoot;
     static int answer;
     static NodeInfo[] nodes;
     static boolean[] visited;
@@ -19,7 +20,7 @@ public class Main {
         answer = Integer.MIN_VALUE;
         nodes = new NodeInfo[N + 1];
         visited = new boolean[N + 1];
-        
+
         if (N == 1) {
             System.out.println(0);
             return;
@@ -38,15 +39,18 @@ public class Main {
             nodes[neighborN].addNode(new Node(nodeN, weight));
         }
 
-        for (int i = 1; i <= N; i++) {
-            dfs(i, 0);
-        }
+        dfs(1, 0);
+        dfs(longNodeOfRoot, 0);
+
         System.out.println(answer);
     }
 
     public static void dfs(int nextNode, int weightSum) {
         if (visited[nextNode]) return;
-        answer = Math.max(answer, weightSum);
+        if (answer < weightSum) {
+            answer = weightSum;
+            longNodeOfRoot = nextNode;
+        }
 
         visited[nextNode] = true;
 
