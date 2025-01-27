@@ -5,9 +5,12 @@ import java.util.*;
 
 public class Main {
 
-    static int N, K;
-    static List<List<Integer>> child;
-    static int[] weight, complete, indeg;
+    static int N;
+    static int K;
+    static int[] times;
+    static int[] completeTimes;
+    static int[] tailCnts;
+    static List<List<Integer>> nodes;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,60 +18,59 @@ public class Main {
         StringBuilder sb = new StringBuilder();
         int T = Integer.parseInt(br.readLine());
 
-        for (int t = 0; t < T; t++) {
+        while (T-- > 0) {
             st = new StringTokenizer(br.readLine());
             N = Integer.parseInt(st.nextToken());
             K = Integer.parseInt(st.nextToken());
 
-            weight = new int[N + 1];
-            complete = new int[N + 1];
-            indeg = new int[N + 1];
+            times = new int[N + 1];
+            completeTimes = new int[N + 1];
+            tailCnts = new int[N + 1];
+            nodes = new ArrayList<>();
 
             st = new StringTokenizer(br.readLine());
             for (int i = 1; i <= N; i++) {
-                weight[i] = Integer.parseInt(st.nextToken());
+                times[i] = Integer.parseInt(st.nextToken());
             }
 
-            child = new ArrayList<>();
             for (int i = 0; i <= N; i++) {
-                child.add(new ArrayList<>());
+                nodes.add(new ArrayList<>());
             }
 
             for (int i = 0; i < K; i++) {
                 st = new StringTokenizer(br.readLine());
-                int c = Integer.parseInt(st.nextToken());
-                int p = Integer.parseInt(st.nextToken());
+                int s = Integer.parseInt(st.nextToken());
+                int d = Integer.parseInt(st.nextToken());
 
-                child.get(c).add(p);
-                indeg[p]++;
+                nodes.get(s).add(d);
+                tailCnts[d]++;
             }
 
-            int building = Integer.parseInt(br.readLine());
+            int buildNumber = Integer.parseInt(br.readLine());
 
-            tpSort();
-
-            sb.append(complete[building]).append('\n');
+            topologySort();
+            sb.append(completeTimes[buildNumber]).append('\n');
         }
         System.out.println(sb);
     }
 
-    public static void tpSort() {
+    public static void topologySort() {
         Deque<Integer> q = new ArrayDeque<>();
 
         for (int i = 1; i <= N; i++) {
-            if (indeg[i] == 0) {
-                complete[i] = weight[i];
+            if (tailCnts[i] == 0) {
                 q.add(i);
+                completeTimes[i] = times[i];
             }
         }
 
         while (!q.isEmpty()) {
-            int x = q.poll();
-            for (int y : child.get(x)) {
-                indeg[y]--;
-                if (indeg[y] == 0) q.add(y);
-                complete[y] = Math.max(complete[y], complete[x] + weight[y]);
+            int num = q.poll();
 
+            for (int child : nodes.get(num)) {
+                tailCnts[child]--;
+                if (tailCnts[child] == 0) q.add(child);
+                completeTimes[child] = Math.max(completeTimes[child], completeTimes[num] + times[child]);
             }
         }
     }
