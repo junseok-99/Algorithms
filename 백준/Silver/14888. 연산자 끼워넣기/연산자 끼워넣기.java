@@ -1,9 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -12,7 +9,6 @@ public class Main {
     static int[] arr;
     static char[] ops;
     static boolean[] visited;
-    static char[] picked;
     static int max, min;
 
     public static void main(String[] args) throws IOException {
@@ -24,7 +20,6 @@ public class Main {
         max = Integer.MIN_VALUE;
         min = Integer.MAX_VALUE;
         visited = new boolean[N - 1];
-        picked = new char[N - 1];
 
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
@@ -40,13 +35,12 @@ public class Main {
             }
         }
 
-        permu(0);
+        permu(0, 0);
         System.out.println(max + "\n" + min);
     }
 
-    public static void permu(int depth) {
+    public static void permu(int depth, int result) {
         if (depth == N - 1) {
-            int result = calcExpression();
             max = Math.max(max, result);
             min = Math.min(min, result);
             return;
@@ -55,27 +49,10 @@ public class Main {
         for (int i = 0; i < N - 1; i++) {
             if (visited[i]) continue;
             visited[i] = true;
-            picked[depth] = ops[i];
-            permu(depth + 1);
+            if (depth == 0) permu(depth + 1, changeExpression(arr[depth], arr[depth + 1], ops[i]));
+            else permu(depth + 1, changeExpression(result, arr[depth + 1], ops[i]));
             visited[i] = false;
         }
-    }
-
-    public static int calcExpression() {
-        Deque<Integer> q = new ArrayDeque<>();
-        int idx = 0;
-        int opIdx = 0;
-        while (idx < N) {
-            if (q.size() < 2) {
-                q.add(arr[idx++]);
-            }
-            if (q.size() == 2) {
-                int a = q.poll();
-                int b = q.poll();
-                q.add(changeExpression(a, b, picked[opIdx++]));
-            }
-        }
-        return q.poll();
     }
 
     public static int changeExpression(int a, int b, char op) {
