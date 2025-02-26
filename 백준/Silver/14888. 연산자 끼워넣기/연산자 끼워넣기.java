@@ -35,7 +35,7 @@ public class Main {
             }
         }
 
-        permu(0, 0);
+        permu(0, arr[0]);
         System.out.println(max + "\n" + min);
     }
 
@@ -49,8 +49,7 @@ public class Main {
         for (int i = 0; i < N - 1; i++) {
             if (visited[i]) continue;
             visited[i] = true;
-            if (depth == 0) permu(depth + 1, changeExpression(arr[depth], arr[depth + 1], ops[i]));
-            else permu(depth + 1, changeExpression(result, arr[depth + 1], ops[i]));
+            permu(depth + 1, changeExpression(result, arr[depth + 1], ops[i]));
             visited[i] = false;
         }
     }
