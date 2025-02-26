@@ -1,81 +1,96 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.StringTokenizer;
 
 public class Main {
 
+    static int N;
+    static int[] arr;
+    static char[] ops;
     static boolean[] visited;
-    static List<Character> operlist = new ArrayList<>();
-    static Character[] opers = {'+', '-', '*', '/'};
-    static int maxNum = -1000000001;
-    static int minNum = 1000000001;
-
-    public static int calc(Stack<Character> q, int[] nums, int n) {
-        int ret = nums[0];
-
-        for(int i=1;i<n;i++) {
-            int op = q.get(i-1);
-
-            if (op == '+') {
-                ret += nums[i];
-            } else if (op == '-') {
-                ret -= nums[i];
-            } else if (op == '*') {
-                ret *= nums[i];
-            } else if (op == '/') {
-                ret /= nums[i];
-            }
-        }
-
-        return ret;
-    }
-
-    public static void bt(Stack<Character> st, int depth, int n, int[] nums) {
-        if (depth == n-1) {
-            int ret = calc(st, nums, n);
-            maxNum = Math.max(maxNum, ret);
-            minNum = Math.min(minNum, ret);
-            return;
-        }
-
-        for(int i=0;i<n-1;i++) {
-            if (!visited[i]) {
-                visited[i] = true;
-                st.push(operlist.get(i));
-                bt(st, depth + 1, n, nums);
-                st.pop();
-                visited[i] = false;
-            }
-        }
-    }
+    static char[] picked;
+    static int max, min;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        N = Integer.parseInt(br.readLine());
+        arr = new int[N];
+        ops = new char[N - 1];
+        max = Integer.MIN_VALUE;
+        min = Integer.MAX_VALUE;
+        visited = new boolean[N - 1];
+        picked = new char[N - 1];
 
-
-        int n = Integer.parseInt(br.readLine());
-        int[] nums = new int[n];
-        visited = new boolean[n-1];
         st = new StringTokenizer(br.readLine());
-
-        for(int i=0;i<n;i++) {
-            nums[i] = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
         }
 
         st = new StringTokenizer(br.readLine());
-
-        for(int i=0;i<4;i++) {
+        int idx = 0;
+        for (int i = 0; i < 4; i++) {
             int cnt = Integer.parseInt(st.nextToken());
-            for(int j=0;j<cnt;j++) {
-                operlist.add(opers[i]);
+            for (int j = 0; j < cnt; j++) {
+                ops[idx++] = changeOperator(i);
             }
         }
 
-        bt(new Stack<>(), 0, n, nums);
+        permu(0);
+        System.out.println(max + "\n" + min);
+    }
 
-        System.out.println(maxNum);
-        System.out.println(minNum);
+    public static void permu(int depth) {
+        if (depth == N - 1) {
+            int result = calcExpression();
+            max = Math.max(max, result);
+            min = Math.min(min, result);
+            return;
+        }
+
+        for (int i = 0; i < N - 1; i++) {
+            if (visited[i]) continue;
+            visited[i] = true;
+            picked[depth] = ops[i];
+            permu(depth + 1);
+            visited[i] = false;
+        }
+    }
+
+    public static int calcExpression() {
+        Deque<Integer> q = new ArrayDeque<>();
+        int idx = 0;
+        int opIdx = 0;
+        while (idx < N) {
+            if (q.size() < 2) {
+                q.add(arr[idx++]);
+            }
+            if (q.size() == 2) {
+                int a = q.poll();
+                int b = q.poll();
+                q.add(changeExpression(a, b, picked[opIdx++]));
+            }
+        }
+        return q.poll();
+    }
+
+    public static int changeExpression(int a, int b, char op) {
+        if (op == '+') return a + b;
+        else if (op == '-') return a - b;
+        else if (op == '*') return a * b;
+        else if (op == '/') return a / b;
+        return -1;
+    }
+
+    public static char changeOperator(int i) {
+        if (i == 0) return '+';
+        else if (i == 1) return '-';
+        else if (i == 2) return '*';
+        else if (i == 3) return '/';
+        return 'ㅗ';
     }
 }
