@@ -31,7 +31,7 @@ class Main {
 			visited[subin.pos] = true;
 			if (subin.pos == K) {
 				answer = Math.min(answer, subin.dist);
-//				return;
+				return;
 			}
 			
 			for (int i = 0; i < 3; i++) {
