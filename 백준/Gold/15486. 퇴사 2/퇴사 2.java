@@ -25,18 +25,16 @@ public class Main {
 
         for (int i = 1; i <= N; i++) {
             st = new StringTokenizer(br.readLine());
-            int period = Integer.parseInt(st.nextToken());
-            int pay = Integer.parseInt(st.nextToken());
-            days[i][0] = period;
-            days[i][1] = pay;
+            days[i][0] = Integer.parseInt(st.nextToken());
+            days[i][1] = Integer.parseInt(st.nextToken());
         }
 
         int[] dp = new int[N + 1];
-        for (int i = 0; i < N; i++) {
-            int period = i + days[i + 1][0];
-            if (period <= N) dp[period] = Math.max(dp[i] + days[i + 1][1], dp[period]);
-            dp[i + 1] = Math.max(dp[i + 1], dp[i]);
+        for (int i = 1; i <= N; i++) {
+            dp[i] = Math.max(dp[i - 1], dp[i]);
+            int period = i + days[i][0] - 1;
+            if (period <= N) dp[period] = Math.max(dp[i - 1] + days[i][1], dp[period]);
         }
-        System.out.println(dp[N]);
+        System.out.println(dp[N ]);
     }
 }
