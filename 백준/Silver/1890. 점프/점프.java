@@ -1,20 +1,23 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
 
-    private static int[][] map;
-    private static int N;
-    private static long[][] dp;
+    static int N;
+    static int[][] map;
+    static long[][] dp;
+
 
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         StringTokenizer st;
         N = Integer.parseInt(br.readLine());
         map = new int[N][N];
         dp = new long[N][N];
-        dp[0][0] = 1;
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
@@ -23,26 +26,25 @@ public class Main {
             }
         }
 
+        dp[0][0] = 1;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (i == N - 1 && j == N - 1) {
-                    break;
-                }
-                if (dp[i][j] > 0) {
-                    int tx = j + map[i][j];
-                    int ty = i + map[i][j];
+                if (i == N - 1 && j == N - 1) break;
+                for (int k = 0; k < 2; k++) {
+                    int tr = i;
+                    int tc = j;
+                    if (k == 0) tr += map[i][j];
+                    else tc += map[i][j];
+                    if (invalidRange(tr, tc)) continue;
 
-                    if (tx < N) {
-                        dp[i][tx] += dp[i][j];
-                    }
-                    if (ty < N) {
-                        dp[ty][j] += dp[i][j];
-                    }
+                    dp[tr][tc] += dp[i][j];
                 }
             }
         }
+        System.out.println(dp[N - 1][N - 1]);
+    }
 
-        bw.write(dp[N-1][N-1] + "");
-        bw.close();
+    public static boolean invalidRange(int tr, int tc) {
+        return tr < 0 || tr >= N || tc < 0 || tc >= N;
     }
 }
