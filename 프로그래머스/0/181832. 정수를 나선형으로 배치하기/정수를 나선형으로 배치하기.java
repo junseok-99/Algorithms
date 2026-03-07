@@ -10,7 +10,7 @@ class Solution {
     }
     
     public void dfs(int[][] arr, int r, int c, int n, int sum) {
-        if (invalidRange(r, c, n) || arr[r][c] != 0) return;
+        if (sum > n * n) return;
 
         arr[r][c] = sum;
         
