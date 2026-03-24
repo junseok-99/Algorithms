@@ -4,21 +4,22 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-
     public static void main(String[] args) throws IOException {
+
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
 
-        int curCnt = 0;
-        int answer = 0;
+        int maxCnt = Integer.MIN_VALUE;
+        int trainCnt = 0;
         for (int i = 0; i < 10; i++) {
             st = new StringTokenizer(br.readLine());
             int out = Integer.parseInt(st.nextToken());
             int in = Integer.parseInt(st.nextToken());
 
-            curCnt = curCnt - out + in;
-            answer = Math.max(answer, curCnt);
+            trainCnt -= out;
+            trainCnt += in;
+            maxCnt = Math.max(maxCnt, trainCnt);
         }
-        System.out.println(answer);
+        System.out.println(maxCnt);
     }
 }
